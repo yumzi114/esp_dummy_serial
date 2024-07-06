@@ -1,0 +1,39 @@
+[package]
+name = "espserial"
+version = "0.1.0"
+authors = ["yum <yumzi114@gmail.com>"]
+edition = "2021"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+embassy-executor = "0.4.0"
+embassy-sync = "0.6.0"
+esp-backtrace = { version = "0.12.0", features = [
+    "esp32c3",
+    "exception-handler",
+    "panic-handler",
+    "println",
+] }
+# esp-hal = { version = "0.18.0", features = [ "esp32c3" ] }
+esp-println = { version = "0.9.1", features = ["esp32c3", "log"] }
+esp32c3-hal = {version = "0.14.0",features = ["async", "embassy", "embassy-executor-thread", "embassy-time-timg0"]}
+embassy-time = { version = "0.2.0" }
+embedded-io-async = "0.6.1"
+embedded-hal-async = "1.0.0-rc.1"
+log = { version = "0.4.21" }
+menu = "0.5.0"
+portable-atomic = "1.6.0"
+# terminal_cli = "0.2.0"
+[profile.dev]
+# Rust debug is too slow.
+# For debug builds always builds with some optimization
+opt-level = "s"
+
+[profile.release]
+codegen-units = 1 # LLVM can perform better optimizations using a single thread
+debug = 2
+debug-assertions = false
+incremental = false
+lto = 'fat'
+opt-level = 's'
+overflow-checks = false
